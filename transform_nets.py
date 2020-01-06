@@ -8,14 +8,15 @@ sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, '../utils'))
 import tf_util
 
-def input_transform_net(point_cloud, is_training, bn_decay=None, K=3):
+# input_transform = input_transform_net(point_cloud, is_training, bn_decay, K=3)
+def input_transform_net(point_cloud, is_training, bn_decay=None, K=3):    # point_cloud:num_pointclouds, num_points,3
     """ Input (XYZ) Transform Net, input is BxNx3 gray image
         Return:
             Transformation matrix of size 3xK """
-    batch_size = point_cloud.get_shape()[0].value
-    num_point = point_cloud.get_shape()[1].value
+    batch_size = point_cloud.get_shape()[0].value #num_pointclouds
+    num_point = point_cloud.get_shape()[1].value  #num_points_per_pointcloud
 
-    input_image = tf.expand_dims(point_cloud, -1)
+    input_image = tf.expand_dims(point_cloud, -1)   #在尾部增加一个维度
     net = tf_util.conv2d(input_image, 64, [1,3],
                          padding='VALID', stride=[1,1],
                          bn=True, is_training=is_training,

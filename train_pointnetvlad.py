@@ -21,7 +21,7 @@ parser.add_argument('--log_dir', default='log/', help='Log dir [default: log]')
 parser.add_argument('--positives_per_query', type=int, default=2, help='Number of potential positives in each training tuple [default: 2]')
 parser.add_argument('--negatives_per_query', type=int, default=18, help='Number of definite negatives in each training tuple [default: 18]')
 parser.add_argument('--max_epoch', type=int, default=20, help='Epoch to run [default: 20]')
-parser.add_argument('--batch_num_queries', type=int, default=2, help='Batch Size during training [default: 2]')
+parser.add_argument('--batch_num_queries', type=int, default=1, help='Batch Size during training [default: 2]')
 parser.add_argument('--learning_rate', type=float, default=0.00005, help='Initial learning rate [default: 0.00005]')
 parser.add_argument('--momentum', type=float, default=0.9, help='Initial learning rate [default: 0.9]')
 parser.add_argument('--optimizer', default='adam', help='adam or momentum [default: adam]')
@@ -69,10 +69,10 @@ HARD_NEGATIVES={}
 global TRAINING_LATENT_VECTORS
 TRAINING_LATENT_VECTORS=[]
 
-def get_bn_decay(batch):
+def get_bn_decay(batch):    #bn:batch norm
     bn_momentum = tf.train.exponential_decay(
                       BN_INIT_DECAY,
-                      batch*BATCH_NUM_QUERIES,
+                      batch*BATCH_NUM_QUERIES,  #初始值为0，训练优化时会增加
                       BN_DECAY_DECAY_STEP,
                       BN_DECAY_DECAY_RATE,
                       staircase=True)
@@ -109,7 +109,7 @@ def train():
             tf.summary.scalar('bn_decay', bn_decay)
 
             with tf.variable_scope("query_triplets") as scope:
-                vecs= tf.concat([query, positives, negatives, other_negatives],1)
+                vecs= tf.concat([query, positives, negatives, other_negatives],1)  #矩阵拼接 shape=(1,22,4096,3)
                 print(vecs)                
                 out_vecs= forward(vecs, is_training_pl, bn_decay=bn_decay)
                 print(out_vecs)

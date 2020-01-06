@@ -49,7 +49,7 @@ def construct_query_dict(df_centroids, filename):
 		query=df_centroids.iloc[i]["file"]
 		positives=np.setdiff1d(ind_nn[i],[i]).tolist()
 		negatives=np.setdiff1d(df_centroids.index.values.tolist(),ind_r[i]).tolist()
-		random.shuffle(negatives)
+		random.shuffle(negatives)             #随机排序
 		queries[i]={"query":query,"positives":positives,"negatives":negatives}
 
 	with open(filename, 'wb') as handle:
@@ -60,7 +60,8 @@ def construct_query_dict(df_centroids, filename):
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-base_path = "../../benchmark_datasets/"
+# base_path = "../../benchmark_datasets/"
+base_path = "/home/zmy/data1/data/PointNetVLAD/benchmark_datasets/"
 runs_folder="inhouse_datasets/"
 filename = "pointcloud_centroids_10.csv"
 pointcloud_fols="/pointcloud_25m_10/"

@@ -43,7 +43,7 @@ QUERY_FILE= 'generating_queries/oxford_evaluation_query.pickle'
 
 LOG_DIR = 'log/'
 output_file= RESULTS_FOLDER +'results.txt'
-model_file= "model.ckpt"
+model_file = "model_refine.ckpt"  # "model.ckpt"
 
 DATABASE_SETS= get_sets_dict(DATABASE_FILE)
 QUERY_SETS= get_sets_dict(QUERY_FILE)

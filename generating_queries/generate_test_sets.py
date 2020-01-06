@@ -97,17 +97,18 @@ def construct_query_and_database_sets(base_path, runs_folder, folders, pointclou
 				test_sets[j][key][i]=index[0].tolist()
 
 	output_to_file(database_sets, output_name+'_evaluation_database.pickle')
-	output_to_file(test_sets, output_name+'_evaluation_query.pickle')
+	output_to_file(test_sets, output_name+'_evaluation_query.pickle')          #用作训练评估
 
 ###Building database and query files for evaluation
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-base_path= "../../benchmark_datasets/"
+# base_path= "../../benchmark_datasets/"
+base_path = "/home/zmy/data1/data/PointNetVLAD/benchmark_datasets/"
 
 #For Oxford
 folders=[]
 runs_folder = "oxford/"
 all_folders=sorted(os.listdir(os.path.join(BASE_DIR,base_path,runs_folder)))
-index_list=[5,6,7,9,10,11,12,13,14,15,16,17,18,19,22,24,31,32,33,38,39,43,44]
+index_list=[5,6,7,9,10,11,12,13,14,15,16,17,18,19,22,24,31,32,33,38,39,43,44]  #如何选择?
 print(len(index_list))
 for index in index_list:
 	folders.append(all_folders[index])

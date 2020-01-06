@@ -17,6 +17,8 @@ def placeholder_inputs(batch_num_queries, num_pointclouds_per_query, num_point):
     pointclouds_pl = tf.placeholder(tf.float32, shape=(batch_num_queries, num_pointclouds_per_query, num_point, 3))
     return pointclouds_pl
 
+
+# out_vecs = forward(vecs, is_training_pl, bn_decay=bn_decay)
 #Adopted from the original pointnet code
 def forward(point_cloud, is_training, bn_decay=None):
     """PointNetVLAD,    INPUT is batch_num_queries X num_pointclouds_per_query X num_points_per_pointcloud X 3, 
@@ -26,7 +28,7 @@ def forward(point_cloud, is_training, bn_decay=None):
     num_points = point_cloud.get_shape()[2].value
     CLUSTER_SIZE=64
     OUTPUT_DIM=256
-    point_cloud = tf.reshape(point_cloud, [batch_num_queries*num_pointclouds_per_query, num_points,3])
+    point_cloud = tf.reshape(point_cloud, [batch_num_queries*num_pointclouds_per_query, num_points,3])  # num_pointclouds, num_points,3
 
     with tf.variable_scope('transform_net1') as sc:
         input_transform = input_transform_net(point_cloud, is_training, bn_decay, K=3)
